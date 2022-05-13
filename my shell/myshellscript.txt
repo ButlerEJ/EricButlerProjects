@@ -1,0 +1,10 @@
+#!/bin/sh
+
+CC=gcc
+EXEC=myshell
+SRC=myshell.c
+SPL=splitline.c
+EX=execute.c
+
+$CC -o $EXEC $SRC $SPL $EX
+./$EXEC
