@@ -1,0 +1,13 @@
+all: proj03
+
+proj03: proj03.o
+        @echo "Checking..."
+        gcc -lm proj03.o -o proj03
+
+proj03.o: proj03.c
+        @echo "Creating object file..."
+        gcc -c proj03.c
+
+clean:
+        @echo "Cleaning up..."
+        rm -rvf proj03.o proj03
