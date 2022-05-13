@@ -1,0 +1,13 @@
+all: proj04
+
+proj04: scroll.o
+        @echo "Checking..."
+        gcc -lm scroll.o -o scroll
+
+scroll.o: scroll.c
+        @echo "Creating pbject file..."
+        gcc -c scroll.c
+
+clean:
+        @echo "Cleaning up..."
+        rm -rvf scroll.o proj04
