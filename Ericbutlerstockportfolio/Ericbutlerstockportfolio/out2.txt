@@ -1,0 +1,9 @@
+Company                 Low     Hi     Net    Ave    Dev Lng  BestTrRt BestPerRt BestPer
+A                     10.00  10.00    0.00  10.00   0.00   0       n/a       n/a   n/a
+B                    100.00 100.00    0.00 100.00   0.00   0       n/a       n/a   n/a
+C                     10.00  10.00    0.00  10.00   0.00   0       n/a       n/a   n/a
+D                     10.00  10.00    0.00  10.00   0.00   0       n/a       n/a   n/a
+
+
+There is only one quotation, so there are no results
+ for the best stock selection by period.

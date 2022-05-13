@@ -1,0 +1,31 @@
+Instructions for Stock Portfolio Management Problem
+
+Start by designing the Stock class.  
+
+Then work on each statistic by itself, starting with the
+easier ones.  You can compare the results you get for each
+company with my output files.
+
+add the output for each statistic to the toString() method 
+as you complete the calculation for it. Use a StringBuilder
+for the toString() You need to look at the output files. Some
+stats will be reported as 'n/a' and reporting them as 0.0 
+will lose points.
+
+Use the included unit tests for Stock and Portfolio classes.
+
+Once you have completed all of the statistics and have
+the output display arranged properly, you should go over
+your program to make sure the format is good(Netbeans can do
+that for you), identifiers are well named, and that it is 
+adequately documented including the file headers, and JavaDoc for all methods.
+
+
+Submit the entire project as a single zipped file.
+
+
+
+
+
+
+
