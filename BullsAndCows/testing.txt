@@ -1,0 +1,297 @@
+CSCI 160
+
+Prof. Applin   Testing Using the Pedigree Project as an Example
+
+There is a lot of literature on testing, and the object oriented
+paradigm has lead to some adaptations of classical notions.  An
+old book that is short and accessible is Glenford Myers's 
+The Art of Software Testing.  We give a brief discussion and
+apply its test case selection for the HFAA problem.
+
+There are two fundamental approaches to test data selection:
+
+  1. structural/white box/glass box criteria
+
+  2. functional/black box criteria
+
+In the first, structural features of the code are used to determine
+test cases.  Typically one chooses test data inputs that will exercise
+various control paths through the code.  So, for an if-else structure,
+one chooses cases to exercise both branches, for a loop structure, one
+tries to choose test points that will cause the loop to iterate 0, 1,
+and some larger number of times.  There are a number of formal 
+characterizations of levels of coverage that can be targeted, based
+on the analysis of a graphical representation of the program's 
+control flow.
+
+One thing is plain for this approach: the code must be available to
+the tester before test selection can begin.  That is why this approach
+is referred to as white or glass box, because one can see the code.
+
+The alternative, black box approach is to consider the specification of
+the desired behavior of the program with no knowledge of the
+implementation.  In this approach one attempts to identify interesting
+dimensions or aspects of the behavior, and use those aspects to select
+test cases that run through the range of possible values of those
+aspects, if not exhaustively, then at least with some variability.
+
+As an example of the application of this approach, consider the problem
+of writing a program to sort an array of integers.  We can think of
+it functionally as
+
+sort: List(int) -> List(int)
+
+where for L in List(int), sort(L) is a rearrangement of the elements
+of L so that they are in increasing order.
+
+Since the input is a list, one aspect is its size.  I might
+vary the size by having test cases of size 0, 1, 2, 3, and some
+larger number.
+
+Another aspect is the "sortedness" of the input list.  There is a measure
+for this called the number of inversions of the list, and it ranges
+from 0(for the list that is already sorted) to n * (n - 1)/ 2, for
+the list that is sorted descending rather than ascending.  I might
+want to vary the inversions to include the two extremal values (already
+sorted and sorted in reverse order), and  a single inversion, and 
+then some middling number of inversions.
+
+I might further refine this aspect by having cases where the single
+inversion occurred at the first position, at the last position, and
+at some middle position.
+
+Once a characterization of the various dimensions has been obtained,
+and values within each dimension have been chosen as interesting,
+the idea is to then pick a collection of test cases such that
+each of the expressed dimension variations has AT LEAST ONE test
+case representing it.  Note, one test case may kill multiple birds,
+that is, represent several needed dimension values across different
+dimensions.  For the list example, a length 10 sorted list would
+cover the size >3 value, and also the already sorted case.
+
+The purpose of testing is to expose any extant errors in the code.
+It's a common and valid observation that in practice the tester 
+should be different from the coder, for two compelling reasons.
+
+1. If the coder had a blind spot about some special case in the
+   input, so that the code does not handle that case, then it is
+   unlikely that the coder will pick a test case that exemplifies
+   that special case and reveals the deficiency.  This is true
+   regardless of the test selection criteria used.
+
+2. Psychologically, programmers have a parental attitude towards
+   their code and are unlikely to test it aggressively.  The coder
+   is more likely to avoid test cases that s/he thinks will pose
+   difficulties than to include them.
+
+In commercial development the roles of coder and tester are distinguished
+and fulfilled by different people(the coder will do some base testing,
+of course, but is not the last word on testing).  In academic settings
+we do not usually separate the roles.
+
+Of course, another aspect of testing is that for each test case
+there must be some characterization of a correct or acceptable output
+that is independent of the result the program gives.  The basic
+operation, once the battery of test cases has been selected, is to
+run the program on each and compare the actual result with the
+independent characterization.  Without such a characterization,
+the comparison is impossible, and there is no way of telling if the
+program performed correctly.  FOR THIS REASON IT IS NECESSARY TO
+KEEP INITIAL TEST CASES QUITE SIMPLE.  Often the only way to obtain
+the independent result is to manually simulate the specified
+behavior, and for all but simple cases this can take a lot of time.
+So, always, always, always, start your testing with simple cases.
+
+If a test case exposes a fault, then it is best to use that case and
+the IDE to locate the problem with the code, and fix it.  It may
+be a simple mistake like a typo, wrong choice of comparison operator,
+missing or incorrect initialization, etc.  Or it may be that you
+neglected to consider a significant special case of input values.
+In the latter alternative, it is often better to consider redesigning 
+your code to deal with that case than attempting to put some 
+patch on that fixes the mistake after the erroneous code has been
+executed.  Don't be afraid to make significant changes to your
+design if you get new information or insight.  In the long run it
+will be far easier to get the code running correctly from a 
+good design than from a bad design with a lot of patches.
+
+If the code has performed correctly on some test cases, but fails
+on a test case, then after fixing it for the failure, you should
+go back and retest on the earlier cases.  This is to ensure that
+your modification did not introduce a fault with respect to the
+other cases.  As you can imagine, this can be a laborious procedure.
+It's estimated that in commercial settings around >=40% of the
+development effort is spent on testing.  In an academic setting
+we don't have the time, typically, to do as a thorough a job as
+should be done.
+
+Now, let's consider the HFAA problem.  Since I do not have your
+code, the test cases I select must be based on black box criteria.
+
+I. The basic assignment is to print out pedigrees, and there
+   are at least the following 3 dimensions to consider
+
+   gender, presence of performance data, presence of ancestors
+
+   A. Gender
+
+      There are only the two values, m and f.
+
+   B. Presence of performance data
+
+      there are two aspects, classification and production.
+      Classification is binary, but production for females
+      is a list and for males is binary
+
+      So my variations go as follows
+
+      males: all 4 combinations of presence/absence of performance
+             of the two categories classification and provings
+
+      females: there are 2 values for classification data(present
+             or absent) and I'll want lists of size 0, 1, and some
+             number > 1.  All combinations are 2 * 3 = 6 distinct
+             values.
+
+
+   C. Presence of ancestors
+
+      For an animal there 4 combinations of possibilities of
+      parent's present: both, sire not dam, dam not sire, neither.
+      Combining those four with absence, we get the following
+      possibility for an input animal
+
+      sire: not present, present in the 4 combinations, for 5
+            total
+
+      dam: same as for sire, absent, or present with the 4
+           combinations, for 5 total
+
+      If I thought it mattered, I would take all combinations
+      of the sire and the dam, for 5 * 5 == 25, but I think
+      it will be adequate to just ensure that I have test cases
+      such that each of the 5 cases is represented in both the
+      dam and the sire.
+
+      I add one case for the input animal itself not being in
+      the database.
+
+I looked over the data file and found instances that tested these
+combinations of values.  The specific animals to use are given
+below:
+		animal	gender	animal	dam  	mgdam  	mgsire  sire  	pgdam  	pgsire
+	        present		c  p	c  p	c  p	c  p	c  p	c  p	c  p
+0000000017	   y	  f	y  y	y  y	n  n    y  y    n  n    y  n	y  y
+0000000685	   y	  f     n  y    y  y    n  y    n  y    y  y    y  n    y  n 	   
+0000000748	   y      f     y  n    y  n    y  n    n  y    y  n    n  y    y  y
+0000000138	   y      m     y  n    y  y    y  y    n  y    y  y    none    y  y
+0000000427	   y	  f     y  n    n  n    n  y    y  y    y  n    y  y    y  n   
+0000000974	   y      f     y  n    n  y    none    none    none	none	none
+0000000984	   y      m     y  y    none    none    none	none	none	none
+0000001011	   y      m     y  y    y  n    none	none	none	none	none	   
+0000000437	   y      f     y  n    y  n  	y  y	n  n	n  n	y  y	y  y
+0000000291         y	  f     n  n    y  y    n  y    none	n  n    y  n    n  n
+0000000847	   y      f     y  y    y  y    none	none	y  y    n  y 	y  y   
+
+
+II. Counting offspring. Here I would have the following dimensions
+
+    A. count of offspring, for each of male and female
+       offspring: 0, 1, >1
+
+       I'd combine these into cases for (male count,female count) of
+       (0,0), (0,1), (1,0), (1,1), and (>1, >1))  for five cases     
+
+    B. gender of parent: m, f
+
+    C. parent present in database: present, absent
+
+
+    I'd combine B and C the full range of combinations of 2 * 2 = 4,
+    (m,present), (m,absent), (f,present), (f,absent)
+
+The following inputs should give me that coverage(I may have the
+counts a little off, so don't rely on them--check yourself).
+
+             Gender Present?    Male Progeny    Female Progeny
+0000001017     f      no            5               4
+0000000986     m      no            8               7
+0000001019     f      no            1               0
+0000000994     m      no            0               4
+0000000000     m      yes           0               0
+0000000001     f      yes           0               0
+0000000162     m      yes           0               1
+0000000090     m      yes           1               1
+9999999999     ?      no            0               0
+
+So, if you do this extra credit, read from cattle1000.txt and count
+the offspring of those 9 animals.
+
+II. Evaluate the offspring, has dimensions
+
+   A. count of daughters: 0, 1, >1
+
+   B. gender of parent: m, f
+
+   C. present in database: present, absent
+
+   D. daughters have performance data to summarize: yes, no
+
+Because the output depends upon the gender of the parent, the
+combinations to consider should be repeated for both parent
+genders.  The following give pretty good coverage.
+
+             Gender Present?  Female Progeny  Progeny W Data
+0000001017     f      no            4             3
+0000000986     m      no            7             4
+0000000162     m      yes           1             1
+0000000090     m      yes           1             0
+0000001019     f      no            0             0
+0000000000     m      yes           0             0
+0000000139     f      yes           1             1
+0000000487     f      yes           1             0
+9999999999     ?      no            0             0
+
+doing the addition and average calculations to verify that your output is correct 
+is left to you to do.  You can use a spreadsheet to capture the data found by 
+doing a "Find" with the datafile open in something like NotePad.  Verifying your
+output is your responsibility as a programmer. 
+
+III. Extra Credit, using the missing sires/missing dam's lists.
+     This extra credit occurs with the input, so the test cases must be
+     distinct input files.  The dimensions are as follows.
+
+     A. gender of the parent: f, m
+
+     B. number of offspring preceding the parent: 0, 1, >1
+
+     C. number of offspring following the parent: 0, 1, >1
+
+     In this case the actual data associated with the animals is
+     irrelevant, so we take the simplest case of no classification
+     or performance data.  We repeat the following combinations of
+     B and C for each gender (0,0), (0,1), (1,0), (1,1), (>1,>1)
+
+     With careful consideration, we can construct a single data
+     file that gives all of the 10 cases(the above 5 for each 
+     gender).  We choose these numbers to go with these variations.
+
+     Reg Num        gender        Children Before Children After
+
+     0000000000        m                  0              0
+     0000000001        m                  0              1
+     0000000002        m                  1              0
+     0000000003        m                  1              1
+     0000000004        m                  2              2
+     0000000010        f                  0              0
+     0000000011        f                  0              1
+     0000000012        f                  1              0
+     0000000013        f                  1              1
+     0000000014        f                  2              2
+
+I contrived an input file to have those cases, cattle13.txt, and
+that is the one you should use if you do this extra credit.
+
+Testing is not the only way to check the correctness of code.  Code
+inspections and structured walkthroughs have also been used with 
+good results.

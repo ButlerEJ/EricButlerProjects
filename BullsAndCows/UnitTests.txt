@@ -1,0 +1,109 @@
+    /*
+     * Unit Test for Proving  Copy this into Proving and use Run File to 
+     *   to test it.
+     */
+
+    public static void main (String[] args){
+        Proving proof1 = new Proving(6, 6, 1920, 93, 180, 15894, 3.4, -476.8);
+        Proving proof2 = new Proving(6, 6, 1920, 93, 180, 15894, 3.4, 476.8);
+        System.out.println(proof1);
+        System.out.println("\nExpected Output:\nDate = 06-06-1920\n"
+                   + "Dtrs = 93 Records = 180\n"
+                   + "AveMilk = 15894 AveBf% = 3.40 AveBf = 540\n"
+                   + "ExImp = -476.80");
+        System.out.println();
+        System.out.println(proof2);
+        System.out.println("\nExpected Output:\nDate = 06-06-1920\n"
+                   + "Dtrs = 93 Records = 180\n"
+                   + "AveMilk = 15894 AveBf% = 3.40 AveBf = 540\n"
+                   + "ExImp = +476.80");
+    }
+
+
+    /*
+     * Unit Test for LactationRecord Copy this into LactationRecord and use 
+     *    Run File to test it.
+     */
+     public static void main(String[] args){
+        ArrayList<LactationRecord> lacRecs = new ArrayList<>();
+        lacRecs.add(new LactationRecord(2, 10, 228, 17232, 5.3));
+        lacRecs.add(new LactationRecord(3, 2, 178, 3290, 4.0));
+        lacRecs.add(new LactationRecord(4, 5, 260, 266, 3.2));
+        System.out.println("Milk Records");
+        for(LactationRecord record: lacRecs){
+            System.out.println(record);
+        }
+        System.out.println("Expected Output:\nMilk Records\n"
+                   + "02-10  228  17232  5.3   913\n"
+                   + "02-10  228  17232  5.3   913\n"
+                   + "03-02  178   3290  4.0   131\n"
+                   + "04-05  260    266  3.2     8 \n");
+
+    } // end Unit Test
+
+===========================================================================
+    /**
+     * Unit Tester for Animal, Cow and Bull.  Copy this into Animal to unit
+     *  test both Cow and Bull. 
+     * @param args command line arguments
+     */
+        public static void main(String[] args) {
+        ClassificationScore perfectCow = 
+              new CowClassificationScore(1, 2, 2010, 30, 20, 20, 30);
+        ClassificationScore nullCow = null;
+        ClassificationScore perfectBull = 
+              new BullClassificationScore(5, 6, 2012, 40, 30, 30);
+        ClassificationScore nullBull = null;
+
+        Proving noProving = null;
+        Proving  proving = new Proving(6, 4, 2016, 20, 200,
+                        1500, 3.25, 324);
+        ArrayList<LactationRecord> empty = null;
+        ArrayList<LactationRecord> lacRecs = new ArrayList<>();
+        lacRecs.add(new LactationRecord(2, 10, 228, 17232, 5.3));
+        lacRecs.add(new LactationRecord(3, 2, 178, 3290, 4.0));
+        lacRecs.add(new LactationRecord(4, 3, 260, 266, 3.2));
+        Animal bull1 = new Bull("0001", "0002", "0003", 'm', 4, 8, 2000,
+                "aBull", perfectBull, noProving);
+        Animal bull2 = new Bull("0001", "0002", "0003", 'm', 4, 8, 2000,
+                "anotherBull", nullBull, proving);
+        Animal cow1 = new Cow("0001", "0002", "0003", 'f', 4, 8, 2000,
+                "aCow", perfectCow, empty);
+        Animal cow2 = new Cow("0001", "0002", "0003", 'f', 4, 8, 2000,
+                "anotherCow", nullCow, lacRecs);
+        System.out.println(bull1);
+        System.out.println("Expected Output:\nRegistration number : 0001\n"
+                   + "Name: aBull\n"
+                   + "Born: 04-08-2000\n"
+                   + "Classification: Date = 05-06-2012 GA = 40 DC = 30 BC = 30"
+                   + " Total = 100\n"
+                   + "Proving: n/a\n");
+        System.out.println();
+        System.out.println(bull2);
+        System.out.println("Expected Output:\nRegistration number : 0001\n"
+                   + "Name: anotherBull\n"
+                   + "Born: 04-08-2000\n"
+                   + "Classification: n/a\n"
+                   + "Proving: Proving: Date = 06-04-2016\n"
+                   + "Dtrs = 20 Records = 200\n"
+                   + "AveMilk = 1500 AveBf% = 3.25 AveBf = 48\n"
+                   + "ExImp = +324.00\n" );
+        System.out.println();
+        System.out.println(cow1);
+                System.out.println("Expected Output:\nRegistration number : 0001\n"
+                   + "Name: aCow\n"
+                   + "Born: 04-08-2000\n"
+                   + "Classification: Date = 01-02-2010 GA = 30 DC = 20 BC = 20"
+                   + " MS = 30 Total = 100\n"
+                   + "No Milk Records\n" );
+        System.out.println();
+        System.out.println(cow2);
+        System.out.println("Expected Output:\nRegistration number : 0001\n"
+                   + "Name: anotherCow\n"
+                   + "Born: 04-08-2000\n"
+                   + "Classification: n/a\n"
+                   + "Milk Records \n"
+                   + "02-10  228  17232  5.3   913\n"
+                   + "03-02  178   3290  4.0   131\n"
+                   + "04-03  260    266  3.2     8 \n" );
+    }
